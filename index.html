@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroSustentável | Futuro do Campo</title>
+    <style>
+        /* Estilos Globais */
+        :root {
+            --verde-escuro: #1b4332;
+            --verde-claro: #2d6a4f;
+            --verde-lima: #95d5b2;
+            --palha: #f8f9fa;
+            --texto: #2d3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--palha);
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        /* Cabeçalho e Navegação */
+        header {
+            background-color: var(--verde-escuro);
+            color: white;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--verde-lima);
+        }
+
+        /* Banner Principal */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 60px;
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; max-width: 700px; }
+
+        /* Seções de Conteúdo */
+        section {
+            padding: 80px 10%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--verde-escuro);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--verde-claro);
+        }
+
+        /* Cores específicas para Desafios */
+        .desafios-bg { background-color: #fceae8; }
+        .desafios-card { border-top: 5px solid #d63031; }
+
+        /* Formulário */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background-color: var(--verde-claro);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background-color: var(--verde-escuro); }
+
+        /* Rodapé */
+        footer {
+            background-color: var(--verde-escuro);
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            nav ul { display: none; } /* Menu hambúrguer precisaria de JS */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><h2>AgroSustentável</h2></div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#producao">Produção</a></li>
+                <li><a href="#sustentabilidade">Sustentabilidade</a></li>
+                <li><a href="#desafios">Desafios</a></li>
+                <li><a href="#solucoes">Soluções</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Agro forte, futuro sustentável</h1>
+        <p>“Como o agronegócio pode crescer economicamente sem comprometer os recursos naturais das futuras gerações?”</p>
+        <br>
+        <a href="#sustentabilidade" class="btn">Saiba Mais</a>
+    </section>
+
+    <section id="producao">
+        <h2 class="section-title">Produção Agrícola e Economia</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3>Peso no PIB</h3>
+                <p>O agronegócio é um dos principais pilares da economia brasileira, representando cerca de 1/4 do PIB nacional.</p>
+            </div>
+            <div class="card">
+                <h3>Empregos</h3>
+                <p>Geração de milhões de empregos diretos e indiretos, desde o campo até a agroindústria e serviços.</p>
+            </div>
+            <div class="card">
+                <h3>Exportações</h3>
+                <p>Liderança mundial na exportação de diversos produtos, fortalecendo a balança comercial do país.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="sustentabilidade" style="background-color: #e8f5e9;">
+        <h2 class="section-title">Práticas Sustentáveis</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3>Recursos Naturais</h3>
+                <p>Uso responsável da água e conservação do solo através do plantio direto e rotação de culturas.</p>
+            </div>
+            <div class="card">
+                <h3>Energias Limpas</h3>
+                <p>Implementação de painéis solares nas fazendas e uso de biogás gerado a partir de resíduos orgânicos.</p>
+            </div>
+            <div class="card">
+                <h3>Tecnologia Verde</h3>
+                <p>Agricultura de precisão que reduz o uso de fertilizantes químicos e otimiza a área plantada.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="desafios" class="desafios-bg">
+        <h2 class="section-title">Desafios Ambientais</h2>
+        <div class="grid-container">
+            <div class="card desafios-card">
+                <h3>Desmatamento</h3>
+                <p>A expansão desordenada causa perda de biodiversidade e acelera as mudanças climáticas.</p>
+            </div>
+            <div class="card desafios-card">
+                <h3>Escassez Hídrica</h3>
+                <p>A irrigação excessiva e sem controle pode esgotar aquíferos e rios vitais para a região.</p>
+            </div>
+            <div class="card desafios-card">
+                <h3>Emissões</h3>
+                <p>A queima de combustíveis fósseis por maquinário e o transporte de carga aumentam a poluição.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="solucoes">
+        <h2 class="section-title">Inovações e Futuro</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3>Drones e IA</h3>
+                <p>Monitoramento em tempo real para identificação precisa de pragas, evitando desperdício de defensivos.</p>
+            </div>
+            <div class="card">
+                <h3>Agro Regenerativa</h3>
+                <p>Práticas que não apenas preservam, mas restauram a saúde do ecossistema e a fertilidade do solo.</p>
+            </div>
+            <div class="card">
+                <h3>Educação Ambiental</h3>
+                <p>Conscientização de produtores e consumidores sobre o valor da preservação integrada à produção.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" style="background-color: #dfe6e9;">
+        <h2 class="section-title">Fale Conosco</h2>
+        <div class="contact-form">
+            <form action="#">
+                <input type="text" placeholder="Seu Nome" required>
+                <input type="email" placeholder="Seu E-mail" required>
+                <textarea rows="5" placeholder="Sua mensagem ou dúvida sobre sustentabilidade no campo..."></textarea>
+                <button type="submit" class="btn" style="width: 100%;">Enviar Mensagem</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 AgroSustentável - Produzindo com Consciência</p>
+        <p>Desenvolvido para fins educacionais | Ética e Tecnologia no Campo</p>
+        <div style="margin-top: 20px;">
+            <small>Redes Sociais: Facebook | Instagram | LinkedIn</small>
+        </div>
+    </footer>
+
+</body>
+</html>
