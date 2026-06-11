@@ -1,1 +1,269 @@
+/* ==========================================================================
+   1. VARIÁVEIS E ESTILOS GLOBAIS
+   ========================================================================== */
+:root {
+    --verde-escuro: #1b4332;
+    --verde-claro: #2d6a4f;
+    --verde-lima: #95d5b2;
+    --palha: #f8f9fa;
+    --texto: #2d3436;
+    --branco: #ffffff;
+    --sombra: rgba(0, 0, 0, 0.1);
+}
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth; /* Deixa o deslizar da página suave ao clicar no menu */
+}
+
+body {
+    background-color: var(--palha);
+    color: var(--texto);
+    line-height: 1.6;
+    padding-top: 70px; /* Evita que o menu fixo cubra o topo da seção Hero */
+}
+
+/* ==========================================================================
+   2. CABEÇALHO E NAVEGAÇÃO
+   ========================================================================== */
+header {
+    background-color: var(--verde-escuro);
+    color: var(--branco);
+    padding: 1rem 5%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo h2 {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: var(--branco);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--verde-lima);
+}
+
+/* ==========================================================================
+   3. BANNER PRINCIPAL (HERO)
+   ========================================================================== */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efeito Parallax bem moderno no fundo */
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--branco);
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   4. SEÇÕES E CARDS (GRID)
+   ========================================================================== */
+section {
+    padding: 100px 10%; /* Aumentei um pouco o espaçamento para o site respirar */
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--verde-escuro);
+    font-size: 2.2rem;
+    position: relative;
+}
+
+/* Linha decorativa embaixo dos títulos das seções */
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--verde-claro);
+    margin: 10px auto 0 auto;
+    border-radius: 2px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--branco);
+    padding: 30px;
+    border-radius: 12px; /* Bordas um pouco mais arredondadas */
+    box-shadow: 0 5px 15px var(--sombra);
+    border-top: 5px solid var(--verde-claro);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito de levitar ao passar o mouse nos cards */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+    margin-bottom: 15px;
+    color: var(--verde-escuro);
+}
+
+/* Estilos específicos para a seção de Desafios */
+.desafios-bg { 
+    background-color: #fceae8; 
+}
+
+.desafios-bg .section-title::after {
+    background-color: #d63031;
+}
+
+.desafios-card { 
+    border-top: 5px solid #d63031; 
+}
+
+.desafios-card h3 {
+    color: #d63031;
+}
+
+/* ==========================================================================
+   5. COMPONENTES (BOTÕES E FORMULÁRIOS)
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    background-color: var(--verde-claro);
+    color: var(--branco);
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px; /* Botão mais arredondado e moderno */
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover { 
+    background-color: var(--verde-escuro);
+    transform: translateY(-2px);
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--branco);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px var(--sombra);
+}
+
+.contact-form input, 
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus, 
+.contact-form textarea:focus {
+    border-color: var(--verde-claro);
+    outline: none;
+}
+
+/* ==========================================================================
+   6. RODAPÉ (FOOTER)
+   ========================================================================== */
+footer {
+    background-color: var(--verde-escuro);
+    color: var(--branco);
+    text-align: center;
+    padding: 50px 20px;
+}
+
+footer p {
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+footer small {
+    display: block;
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   7. RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 768px) {
+    body {
+        padding-top: 60px;
+    }
+
+    section {
+        padding: 60px 5%;
+    }
+
+    .hero h1 { 
+        font-size: 2.2rem; 
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    nav ul { 
+        display: none; /* Esconde o menu em telas pequenas */
+    } 
+}
