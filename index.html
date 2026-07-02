@@ -4,272 +4,325 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroSustentável | Futuro do Campo</title>
-    <style>
-        /* Estilos Globais */
-        :root {
-            --verde-escuro: #1b4332;
-            --verde-claro: #2d6a4f;
-            --verde-lima: #95d5b2;
-            --palha: #f8f9fa;
-            --texto: #2d3436;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--palha);
-            color: var(--texto);
-            line-height: 1.6;
-        }
-
-        /* Cabeçalho e Navegação */
-        header {
-            background-color: var(--verde-escuro);
-            color: white;
-            padding: 1rem 5%;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: var(--verde-lima);
-        }
-
-        /* Banner Principal */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding-top: 60px;
-        }
-
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; max-width: 700px; }
-
-        /* Seções de Conteúdo */
-        section {
-            padding: 80px 10%;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            color: var(--verde-escuro);
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-top: 5px solid var(--verde-claro);
-        }
-
-        /* Cores específicas para Desafios */
-        .desafios-bg { background-color: #fceae8; }
-        .desafios-card { border-top: 5px solid #d63031; }
-
-        /* Formulário */
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-        }
-
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .btn {
-            background-color: var(--verde-claro);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-
-        .btn:hover { background-color: var(--verde-escuro); }
-
-        /* Rodapé */
-        footer {
-            background-color: var(--verde-escuro);
-            color: white;
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 50px;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            nav ul { display: none; } /* Menu hambúrguer precisaria de JS */
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Cabeçalho -->
     <header>
-        <div class="logo"><h2>AgroSustentável</h2></div>
+        <div class="logo">
+            <h2><i class="fas fa-leaf"></i> AgroSustentável</h2>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <nav>
-            <ul>
+            <ul id="navMenu">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#producao">Produção</a></li>
                 <li><a href="#sustentabilidade">Sustentabilidade</a></li>
                 <li><a href="#desafios">Desafios</a></li>
                 <li><a href="#solucoes">Soluções</a></li>
+                <li><a href="#quiz">Quiz</a></li>
+                <li><a href="#calculadora">Calculadora</a></li>
                 <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- Banner Principal -->
     <section class="hero" id="home">
         <h1>Agro forte, futuro sustentável</h1>
-        <p>“Como o agronegócio pode crescer economicamente sem comprometer os recursos naturais das futuras gerações?”</p>
-        <br>
-        <a href="#sustentabilidade" class="btn">Saiba Mais</a>
+        <p>"Como o agronegócio pode crescer economicamente sem comprometer os recursos naturais das futuras gerações?"</p>
+        <div class="hero-buttons">
+            <a href="#sustentabilidade" class="btn btn-primary">Saiba Mais</a>
+            <a href="#quiz" class="btn btn-secondary">Fazer Quiz</a>
+        </div>
     </section>
 
+    <!-- Estatísticas Animadas -->
+    <section class="stats-section">
+        <div class="stat-item">
+            <span class="stat-number" data-target="25">0</span>
+            <span class="stat-label">% do PIB Brasileiro</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="18">0</span>
+            <span class="stat-label">Milhões de Empregos</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="40">0</span>
+            <span class="stat-label">% das Exportações</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="30">0</span>
+            <span class="stat-label">% Menos Água com Tecnologia</span>
+        </div>
+    </section>
+
+    <!-- Produção Agrícola -->
     <section id="producao">
         <h2 class="section-title">Produção Agrícola e Economia</h2>
         <div class="grid-container">
             <div class="card">
-                <h3>Peso no PIB</h3>
-                <p>O agronegócio é um dos principais pilares da economia brasileira, representando cerca de 1/4 do PIB nacional.</p>
+                <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=500" alt="PIB Agro" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-chart-line card-icon"></i>
+                    <h3>Peso no PIB</h3>
+                    <p>O agronegócio é um dos principais pilares da economia brasileira, representando cerca de 1/4 do PIB nacional.</p>
+                </div>
             </div>
             <div class="card">
-                <h3>Empregos</h3>
-                <p>Geração de milhões de empregos diretos e indiretos, desde o campo até a agroindústria e serviços.</p>
+                <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=500" alt="Empregos" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-users card-icon"></i>
+                    <h3>Empregos</h3>
+                    <p>Geração de milhões de empregos diretos e indiretos, desde o campo até a agroindústria e serviços.</p>
+                </div>
             </div>
             <div class="card">
-                <h3>Exportações</h3>
-                <p>Liderança mundial na exportação de diversos produtos, fortalecendo a balança comercial do país.</p>
+                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500" alt="Exportações" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-globe-americas card-icon"></i>
+                    <h3>Exportações</h3>
+                    <p>Liderança mundial na exportação de diversos produtos, fortalecendo a balança comercial do país.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="sustentabilidade" style="background-color: #e8f5e9;">
+    <!-- Sustentabilidade -->
+    <section id="sustentabilidade" class="sustentabilidade-bg">
         <h2 class="section-title">Práticas Sustentáveis</h2>
         <div class="grid-container">
             <div class="card">
-                <h3>Recursos Naturais</h3>
-                <p>Uso responsável da água e conservação do solo através do plantio direto e rotação de culturas.</p>
+                <img src="https://images.unsplash.com/photo-1628173494732-68a5c9a4c4c6?w=500" alt="Recursos Naturais" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-tint card-icon"></i>
+                    <h3>Recursos Naturais</h3>
+                    <p>Uso responsável da água e conservação do solo através do plantio direto e rotação de culturas.</p>
+                </div>
             </div>
             <div class="card">
-                <h3>Energias Limpas</h3>
-                <p>Implementação de painéis solares nas fazendas e uso de biogás gerado a partir de resíduos orgânicos.</p>
+                <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500" alt="Energias Limpas" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-solar-panel card-icon"></i>
+                    <h3>Energias Limpas</h3>
+                    <p>Implementação de painéis solares nas fazendas e uso de biogás gerado a partir de resíduos orgânicos.</p>
+                </div>
             </div>
             <div class="card">
-                <h3>Tecnologia Verde</h3>
-                <p>Agricultura de precisão que reduz o uso de fertilizantes químicos e otimiza a área plantada.</p>
+                <img src="https://images.unsplash.com/photo-1530267981375-f0de93fe1e84?w=500" alt="Tecnologia Verde" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-microchip card-icon"></i>
+                    <h3>Tecnologia Verde</h3>
+                    <p>Agricultura de precisão que reduz o uso de fertilizantes químicos e otimiza a área plantada.</p>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Desafios Ambientais -->
     <section id="desafios" class="desafios-bg">
         <h2 class="section-title">Desafios Ambientais</h2>
         <div class="grid-container">
             <div class="card desafios-card">
-                <h3>Desmatamento</h3>
-                <p>A expansão desordenada causa perda de biodiversidade e acelera as mudanças climáticas.</p>
+                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=500" alt="Desmatamento" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-tree card-icon"></i>
+                    <h3>Desmatamento</h3>
+                    <p>A expansão desordenada causa perda de biodiversidade e acelera as mudanças climáticas.</p>
+                </div>
             </div>
             <div class="card desafios-card">
-                <h3>Escassez Hídrica</h3>
-                <p>A irrigação excessiva e sem controle pode esgotar aquíferos e rios vitais para a região.</p>
+                <img src="https://images.unsplash.com/photo-1534234828563-025083a17400?w=500" alt="Escassez Hídrica" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-faucet-drip card-icon"></i>
+                    <h3>Escassez Hídrica</h3>
+                    <p>A irrigação excessiva e sem controle pode esgotar aquíferos e rios vitais para a região.</p>
+                </div>
             </div>
             <div class="card desafios-card">
-                <h3>Emissões</h3>
-                <p>A queima de combustíveis fósseis por maquinário e o transporte de carga aumentam a poluição.</p>
+                <img src="https://images.unsplash.com/photo-1611273426761-53c8577a22fc?w=500" alt="Emissões" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-smog card-icon"></i>
+                    <h3>Emissões de Carbono</h3>
+                    <p>A queima de combustíveis fósseis por maquinário e o transporte de carga aumentam a poluição.</p>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Soluções e Futuro -->
     <section id="solucoes">
         <h2 class="section-title">Inovações e Futuro</h2>
         <div class="grid-container">
             <div class="card">
-                <h3>Drones e IA</h3>
-                <p>Monitoramento em tempo real para identificação precisa de pragas, evitando desperdício de defensivos.</p>
+                <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?w=500" alt="Drones e IA" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-robot card-icon"></i>
+                    <h3>Drones e IA</h3>
+                    <p>Monitoramento em tempo real para identificação precisa de pragas, evitando desperdício de defensivos.</p>
+                </div>
             </div>
             <div class="card">
-                <h3>Agro Regenerativa</h3>
-                <p>Práticas que não apenas preservam, mas restauram a saúde do ecossistema e a fertilidade do solo.</p>
+                <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?w=500" alt="Agro Regenerativa" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-seedling card-icon"></i>
+                    <h3>Agro Regenerativa</h3>
+                    <p>Práticas que não apenas preservam, mas restauram a saúde do ecossistema e a fertilidade do solo.</p>
+                </div>
             </div>
             <div class="card">
-                <h3>Educação Ambiental</h3>
-                <p>Conscientização de produtores e consumidores sobre o valor da preservação integrada à produção.</p>
+                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=500" alt="Educação Ambiental" class="card-image">
+                <div class="card-content">
+                    <i class="fas fa-graduation-cap card-icon"></i>
+                    <h3>Educação Ambiental</h3>
+                    <p>Conscientização de produtores e consumidores sobre o valor da preservação integrada à produção.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="contato" style="background-color: #dfe6e9;">
+    <!-- Quiz Interativo -->
+    <section id="quiz" class="quiz-section">
+        <h2 class="section-title">Quiz: Teste seu Conhecimento</h2>
+        <div class="quiz-container">
+            <div class="quiz-progress">Questão <span id="currentQuestion">1</span> de <span id="totalQuestions">5</span></div>
+            <div id="quizContent">
+                <div class="quiz-question" id="questionText"></div>
+                <div class="quiz-options" id="optionsContainer"></div>
+            </div>
+            <div class="quiz-result" id="quizResult">
+                <h3>Quiz Finalizado!</h3>
+                <p>Você acertou <span id="scoreValue">0</span> de <span id="totalScore">5</span> questões</p>
+                <p id="feedbackMessage"></p>
+                <button class="btn btn-restart" onclick="restartQuiz()">Refazer Quiz</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculadora de Impacto Ambiental -->
+    <section id="calculadora" class="calculator-section">
+        <h2 class="section-title">Calculadora de Impacto Ambiental</h2>
+        <div class="calculator-container">
+            <p style="text-align: center; margin-bottom: 20px;">Descubra o impacto da sua propriedade rural e veja como melhorá-lo!</p>
+            <div class="calculator-grid">
+                <div class="calculator-inputs">
+                    <label for="areaInput">Área da propriedade (hectares):</label>
+                    <input type="number" id="areaInput" min="1" placeholder="Ex: 100">
+
+                    <label for="waterInput">Consumo diário de água (m³):</label>
+                    <input type="number" id="waterInput" min="1" placeholder="Ex: 50">
+
+                    <label for="energyInput">Tipo de energia utilizada:</label>
+                    <select id="energyInput">
+                        <option value="fossil">Combustíveis Fósseis</option>
+                        <option value="solar">Energia Solar</option>
+                        <option value="biogas">Biogás</option>
+                        <option value="hybrid">Mista (Solar + Fóssil)</option>
+                    </select>
+
+                    <label for="forestInput">Área de reserva florestal (%):</label>
+                    <input type="number" id="forestInput" min="0" max="100" placeholder="Ex: 20">
+
+                    <button class="btn btn-calculate" onclick="calculateImpact()">Calcular Impacto</button>
+                </div>
+                <div class="calculator-result" id="calcResult">
+                    <h3 style="margin-bottom: 20px; text-align: center;">Resultado do Impacto</h3>
+                    <div id="resultContent">
+                        <p style="text-align: center; opacity: 0.8;">Preencha os dados e clique em calcular para ver o resultado.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria Interativa -->
+    <section id="galeria" class="galeria-section">
+        <h2 class="section-title">Galeria: Agro Sustentável em Ação</h2>
+        <div class="gallery-container">
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500" alt="Plantação">
+                <div class="gallery-overlay">
+                    <p>Agricultura de Precisão</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1530267981375-f0de93fe1e84?w=500" alt="Tecnologia">
+                <div class="gallery-overlay">
+                    <p>Drones no Campo</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500" alt="Energia Solar">
+                <div class="gallery-overlay">
+                    <p>Energia Renovável</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1628173494732-68a5c9a4c4c6?w=500" alt="Solo">
+                <div class="gallery-overlay">
+                    <p>Conservação do Solo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="contato-section">
         <h2 class="section-title">Fale Conosco</h2>
         <div class="contact-form">
-            <form action="#">
-                <input type="text" placeholder="Seu Nome" required>
-                <input type="email" placeholder="Seu E-mail" required>
-                <textarea rows="5" placeholder="Sua mensagem ou dúvida sobre sustentabilidade no campo..."></textarea>
-                <button type="submit" class="btn" style="width: 100%;">Enviar Mensagem</button>
+            <form id="contactForm">
+                <input type="text" id="nome" placeholder="Seu Nome" required>
+                <input type="email" id="email" placeholder="Seu E-mail" required>
+                <input type="text" id="assunto" placeholder="Assunto" required>
+                <textarea id="mensagem" rows="5" placeholder="Sua mensagem ou dúvida sobre sustentabilidade no campo..." required></textarea>
+                <button type="submit" class="btn btn-submit" style="width: 100%;">Enviar Mensagem</button>
             </form>
         </div>
     </section>
 
+    <!-- Rodapé -->
     <footer>
-        <p>&copy; 2023 AgroSustentável - Produzindo com Consciência</p>
-        <p>Desenvolvido para fins educacionais | Ética e Tecnologia no Campo</p>
-        <div style="margin-top: 20px;">
-            <small>Redes Sociais: Facebook | Instagram | LinkedIn</small>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-leaf"></i> AgroSustentável</h3>
+                <p>Produzindo com consciência para um futuro melhor.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#sustentabilidade">Sustentabilidade</a></li>
+                    <li><a href="#quiz">Quiz</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Redes Sociais</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 AgroSustentável - Produzindo com Consciência</p>
+            <p>Desenvolvido para fins educacionais | Ética e Tecnologia no Campo</p>
         </div>
     </footer>
 
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <img id="lightboxImg" src="" alt="">
+        <div id="lightboxCaption"></div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
