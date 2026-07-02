@@ -1,28 +1,47 @@
 // ==========================================================================
-// 1. MENU HAMBÚRGUER
+// NAVEGAÇÃO E SCROLL
 // ==========================================================================
-const menuToggle = document.getElementById('menuToggle');
+const navbar = document.getElementById('navbar');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const navMenu = document.getElementById('navMenu');
+const btnTopo = document.getElementById('btnTopo');
 
-menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
+// Menu Mobile
+mobileMenuBtn.addEventListener('click', () => {
+    mobileMenuBtn.classList.toggle('active');
     navMenu.classList.toggle('active');
 });
 
-// Fechar menu ao clicar em um link
-document.querySelectorAll('nav ul li a').forEach(link => {
+// Fechar menu ao clicar em link
+document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
+        mobileMenuBtn.classList.remove('active');
         navMenu.classList.remove('active');
     });
 });
 
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+        btnTopo.classList.add('visible');
+    } else {
+        navbar.classList.remove('scrolled');
+        btnTopo.classList.remove('visible');
+    }
+});
+
+// Voltar ao topo
+btnTopo.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 // ==========================================================================
-// 2. ANIMAÇÃO DE SCROLL (FADE-IN)
+// ANIMAÇÃO DE SCROLL (INTERSECTION OBSERVER)
 // ==========================================================================
 const observerOptions = {
     threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
+    rootMargin: '0px 0px -50px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -33,19 +52,37 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observar todos os cards
-document.querySelectorAll('.card').forEach(card => {
-    observer.observe(card);
+document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
 });
 
 // ==========================================================================
-// 3. ANIMAÇÃO DOS NÚMEROS (ESTATÍSTICAS)
+// CONTADORES ANIMADOS
 // ==========================================================================
+const animateCounter = (element) => {
+    const target = parseInt(element.getAttribute('data-target'));
+    const suffix = element.nextElementSibling?.classList.contains('stat-suffix') 
+        ? element.nextElementSibling.textContent 
+        : '';
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+    
+    const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+            element.textContent = target;
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current);
+        }
+    }, 16);
+};
+
 const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            const target = parseInt(entry.target.getAttribute('data-target'));
-            animateNumber(entry.target, target);
+            animateCounter(entry.target);
             statsObserver.unobserve(entry.target);
         }
     });
@@ -55,305 +92,358 @@ document.querySelectorAll('.stat-number').forEach(stat => {
     statsObserver.observe(stat);
 });
 
-function animateNumber(element, target) {
-    let current = 0;
-    const increment = target / 50;
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            element.textContent = target + (target === 25 || target === 40 || target === 30 ? '%' : '+');
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.floor(current);
-        }
-    }, 30);
-}
+// ==========================================================================
+// CALCULADORA DE IMPACTO AMBIENTAL
+// ==========================================================================
+const calcularBtn = document.getElementById('calcularBtn');
+const compartilharBtn = document.getElementById('compartilharBtn');
+
+const calcularImpacto = () => {
+    const area = parseFloat(document.getElementById('area').value) || 0;
+    const sistema = document.getElementById('sistema').value;
+    const irrigacao = document.getElementById('irrigacao').value;
+    const energia = document.getElementById('energia').value;
+    
+    if (area === 0 || !sistema || !irrigacao || !energia) {
+        alert('Por favor, preencha todos os campos!');
+        return;
+    }
+    
+    // Cálculos baseados em dados reais
+    let economiaAgua = 0;
+    let reducaoCO2 = 0;
+    let economiaFinanceira = 0;
+    
+    // Fatores de economia por sistema
+    const fatoresSistema = {
+        'convencional': { agua: 1, co2: 1, financeiro: 1 },
+        'precisao': { agua: 1.3, co2: 1.4, financeiro: 1.5 },
+        'organica': { agua: 1.2, co2: 1.6, financeiro: 1.3 },
+        'ilpf': { agua: 1.5, co2: 2.0, financeiro: 1.8 }
+    };
+    
+    const fatoresIrrigacao = {
+        'convencional': 1,
+        'gotejamento': 1.4,
+        'pivocentral': 1.2,
+        'inteligente': 1.8
+    };
+    
+    const fatoresEnergia = {
+        'rede': 1,
+        'diesel': 0.8,
+        'solar': 2.5,
+        'biogas': 2.2
+    };
+    
+    const fatorSistema = fatoresSistema[sistema];
+    const fatorIrrigacao = fatoresIrrigacao[irrigacao];
+    const fatorEnergia = fatoresEnergia[energia];
+    
+    // Cálculos (valores baseados em médias reais por hectare/ano)
+    economiaAgua = Math.round(area * 50000 * fatorIrrigacao * fatorSistema);
+    reducaoCO2 = parseFloat((area * 2.5 * fatorSistema * fatorEnergia).toFixed(2));
+    economiaFinanceira = Math.round(area * 1200 * fatorSistema * fatorEnergia);
+    
+    // Atualizar UI
+    document.getElementById('valorAgua').textContent = economiaAgua.toLocaleString('pt-BR');
+    document.getElementById('valorCO2').textContent = reducaoCO2.toLocaleString('pt-BR');
+    document.getElementById('valorFinanceiro').textContent = `R$ ${economiaFinanceira.toLocaleString('pt-BR')}`;
+    
+    // Mensagem personalizada
+    let mensagem = '';
+    const scoreTotal = (fatorSistema.financeiro + fatorIrrigacao + fatorEnergia) / 3;
+    
+    if (scoreTotal >= 2) {
+        mensagem = '🌟 Excelente! Sua propriedade é modelo em sustentabilidade! Continue assim e inspire outros produtores.';
+    } else if (scoreTotal >= 1.5) {
+        mensagem = '👍 Muito bom! Você está no caminho certo. Considere implementar mais tecnologias sustentáveis.';
+    } else {
+        mensagem = '💡 Bom começo! Que tal explorar mais tecnologias sustentáveis para aumentar ainda mais seu impacto positivo?';
+    }
+    
+    document.getElementById('resultadoMensagem').textContent = mensagem;
+    
+    // Mostrar botão de compartilhar
+    compartilharBtn.style.display = 'block';
+    
+    // Animar resultados
+    document.querySelectorAll('.resultado-item').forEach((item, index) => {
+        setTimeout(() => {
+            item.style.transform = 'translateX(10px)';
+            setTimeout(() => {
+                item.style.transform = 'translateX(0)';
+            }, 300);
+        }, index * 200);
+    });
+};
+
+calcularBtn.addEventListener('click', calcularImpacto);
+
+compartilharBtn.addEventListener('click', () => {
+    const texto = `Calculei meu impacto ambiental no Agrinho 2026! 💚\nEconomia de água: ${document.getElementById('valorAgua').textContent}L/ano\nRedução de CO₂: ${document.getElementById('valorCO2').textContent} ton/ano\nEconomia: ${document.getElementById('valorFinanceiro').textContent}/ano\n\nDescubra seu impacto também: #Agrinho2026 #AgroSustentavel`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'Meu Impacto Ambiental - Agrinho 2026',
+            text: texto
+        });
+    } else {
+        navigator.clipboard.writeText(texto);
+        alert('Resultados copiados para a área de transferência!');
+    }
+});
 
 // ==========================================================================
-// 4. QUIZ INTERATIVO
+// QUIZ INTERATIVO
 // ==========================================================================
 const quizData = [
     {
-        question: "Qual porcentagem do PIB brasileiro o agronegócio representa?",
-        options: ["10%", "25%", "40%", "60%"],
-        correct: 1
+        pergunta: "Qual porcentagem do PIB brasileiro o agronegócio representa atualmente?",
+        opcoes: [
+            "10%",
+            "24%",
+            "35%",
+            "50%"
+        ],
+        correta: 1,
+        explicacao: "O agronegócio representa aproximadamente 24% do PIB brasileiro, sendo um dos principais pilares da economia nacional."
     },
     {
-        question: "Qual prática ajuda na conservação do solo?",
-        options: ["Queimadas", "Plantio direto", "Desmatamento", "Monocultura intensiva"],
-        correct: 1
+        pergunta: "Qual tecnologia permite economia de 30-50% de água na irrigação?",
+        opcoes: [
+            "Irrigação por aspersão convencional",
+            "Irrigação por inundação",
+            "Irrigação inteligente com IoT",
+            "Irrigação manual"
+        ],
+        correta: 2,
+        explicacao: "Sistemas de irrigação inteligente com sensores IoT monitoram a umidade do solo e fornecem água sob demanda, economizando até 50%."
     },
     {
-        question: "Qual tecnologia reduz o uso de água na agricultura?",
-        options: ["Irrigação por inundação", "Irrigação inteligente", "Aspersão convencional", "Nenhuma das anteriores"],
-        correct: 1
+        pergunta: "O que significa a sigla ILPF?",
+        opcoes: [
+            "Integração Lavoura-Pecuária-Floresta",
+            "Irrigação Localizada de Plantas Florestais",
+            "Instituto de Lavouras e Plantas Frutíferas",
+            "Indústria de Laticínios e Produtos Florestais"
+        ],
+        correta: 0,
+        explicacao: "ILPF significa Integração Lavoura-Pecuária-Floresta, um sistema sustentável que combina diferentes atividades na mesma área."
     },
     {
-        question: "O que é agricultura regenerativa?",
-        options: ["Uso intensivo de químicos", "Práticas que restauram o ecossistema", "Queimada controlada", "Cultivo em estufas"],
-        correct: 1
+        pergunta: "Qual a principal vantagem dos drones na agricultura de precisão?",
+        opcoes: [
+            "Substituir completamente os trabalhadores rurais",
+            "Detecção precoce de pragas e doenças",
+            "Aumentar o uso de defensivos agrícolas",
+            "Reduzir a produtividade das lavouras"
+        ],
+        correta: 1,
+        explicacao: "Drones com câmeras multiespectrais identificam problemas antes que sejam visíveis a olho nu, permitindo ações preventivas e localizadas."
     },
     {
-        question: "Qual a principal fonte de energia renovável no campo?",
-        options: ["Carvão mineral", "Energia solar", "Petróleo", "Gás natural"],
-        correct: 1
+        pergunta: "Qual porcentagem da vegetação nativa é preservada em propriedades rurais brasileiras?",
+        opcoes: [
+            "25%",
+            "45%",
+            "66%",
+            "80%"
+        ],
+        correta: 2,
+        explicacao: "Cerca de 66% da vegetação nativa é preservada em propriedades rurais, demonstrando que produção e conservação podem coexistir."
     }
 ];
 
-let currentQuestion = 0;
-let score = 0;
+let questaoAtual = 0;
+let pontuacao = 0;
+let quizFinalizado = false;
 
-function loadQuiz() {
-    const questionText = document.getElementById('questionText');
-    const optionsContainer = document.getElementById('optionsContainer');
-    const currentQuestionSpan = document.getElementById('currentQuestion');
-    const totalQuestionsSpan = document.getElementById('totalQuestions');
+const quizPergunta = document.getElementById('quizPergunta');
+const quizOpcoes = document.getElementById('quizOpcoes');
+const quizFeedback = document.getElementById('quizFeedback');
+const btnProxima = document.getElementById('btnProxima');
+const questaoAtualEl = document.getElementById('questaoAtual');
+const questaoTotalEl = document.getElementById('questaoTotal');
+const progressFill = document.getElementById('progressFill');
 
-    if (currentQuestion < quizData.length) {
-        const currentQuiz = quizData[currentQuestion];
-        questionText.textContent = currentQuiz.question;
-        currentQuestionSpan.textContent = currentQuestion + 1;
-        totalQuestionsSpan.textContent = quizData.length;
+const carregarQuestao = () => {
+    const questao = quizData[questaoAtual];
+    
+    quizPergunta.textContent = questao.pergunta;
+    questaoAtualEl.textContent = questaoAtual + 1;
+    questaoTotalEl.textContent = quizData.length;
+    
+    // Atualizar barra de progresso
+    const progresso = ((questaoAtual + 1) / quizData.length) * 100;
+    progressFill.style.width = `${progresso}%`;
+    
+    // Limpar opções anteriores
+    quizOpcoes.innerHTML = '';
+    quizFeedback.className = 'quiz-feedback';
+    quizFeedback.style.display = 'none';
+    btnProxima.style.display = 'none';
+    
+    // Criar opções
+    questao.opcoes.forEach((opcao, index) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-opcao';
+        div.innerHTML = `
+            <span style="font-weight: 600; color: var(--verde-primario);">${String.fromCharCode(65 + index)})</span>
+            <span>${opcao}</span>
+        `;
+        div.addEventListener('click', () => selecionarResposta(index, div));
+        quizOpcoes.appendChild(div);
+    });
+};
 
-        optionsContainer.innerHTML = '';
-        currentQuiz.options.forEach((option, index) => {
-            const button = document.createElement('button');
-            button.textContent = option;
-            button.classList.add('quiz-option');
-            button.addEventListener('click', () => selectAnswer(index, button));
-            optionsContainer.appendChild(button);
-        });
+const selecionarResposta = (index, elemento) => {
+    if (quizFinalizado) return;
+    
+    const questao = quizData[questaoAtual];
+    const opcoes = document.querySelectorAll('.quiz-opcao');
+    
+    // Desabilitar todas as opções
+    opcoes.forEach(op => op.classList.add('disabled'));
+    
+    // Verificar resposta
+    if (index === questao.correta) {
+        elemento.classList.add('correct');
+        pontuacao++;
+        quizFeedback.className = 'quiz-feedback correct show';
+        quizFeedback.innerHTML = `
+            <strong><i class="fas fa-check-circle"></i> Correto!</strong>
+            <p>${questao.explicacao}</p>
+        `;
     } else {
-        showQuizResult();
+        elemento.classList.add('incorrect');
+        opcoes[questao.correta].classList.add('correct');
+        quizFeedback.className = 'quiz-feedback incorrect show';
+        quizFeedback.innerHTML = `
+            <strong><i class="fas fa-times-circle"></i> Incorreto</strong>
+            <p>${questao.explicacao}</p>
+        `;
     }
-}
-
-function selectAnswer(selectedIndex, button) {
-    const currentQuiz = quizData[currentQuestion];
-    const options = document.querySelectorAll('.quiz-option');
-
-    options.forEach(opt => opt.style.pointerEvents = 'none');
-
-    if (selectedIndex === currentQuiz.correct) {
-        button.classList.add('correct');
-        score++;
+    
+    // Mostrar botão próxima
+    if (questaoAtual < quizData.length - 1) {
+        btnProxima.style.display = 'inline-flex';
     } else {
-        button.classList.add('incorrect');
-        options[currentQuiz.correct].classList.add('correct');
+        btnProxima.textContent = 'Ver Resultado';
+        btnProxima.style.display = 'inline-flex';
+        btnProxima.onclick = mostrarResultado;
     }
+};
 
-    setTimeout(() => {
-        currentQuestion++;
-        loadQuiz();
-    }, 1500);
-}
+btnProxima.addEventListener('click', () => {
+    if (questaoAtual < quizData.length - 1) {
+        questaoAtual++;
+        carregarQuestao();
+    }
+});
 
-function showQuizResult() {
+const mostrarResultado = () => {
+    quizFinalizado = true;
     document.getElementById('quizContent').style.display = 'none';
-    document.getElementById('quizResult').style.display = 'block';
-    document.getElementById('scoreValue').textContent = score;
-    document.getElementById('totalScore').textContent = quizData.length;
-
-    const feedbackMessage = document.getElementById('feedbackMessage');
-    const percentage = (score / quizData.length) * 100;
-
-    if (percentage === 100) {
-        feedbackMessage.textContent = "Excelente! Você é um especialista em sustentabilidade! 🌱";
-    } else if (percentage >= 60) {
-        feedbackMessage.textContent = "Muito bom! Você tem bom conhecimento sobre o tema! 👍";
-    } else {
-        feedbackMessage.textContent = "Continue estudando! A sustentabilidade é importante! 📚";
-    }
-}
-
-function restartQuiz() {
-    currentQuestion = 0;
-    score = 0;
-    document.getElementById('quizContent').style.display = 'block';
-    document.getElementById('quizResult').style.display = 'none';
-    loadQuiz();
-}
-
-// Iniciar quiz
-loadQuiz();
-
-// ==========================================================================
-// 5. CALCULADORA DE IMPACTO AMBIENTAL
-// ==========================================================================
-function calculateImpact() {
-    const area = parseFloat(document.getElementById('areaInput').value) || 0;
-    const water = parseFloat(document.getElementById('waterInput').value) || 0;
-    const energy = document.getElementById('energyInput').value;
-    const forest = parseFloat(document.getElementById('forestInput').value) || 0;
-
-    if (area === 0) {
-        alert('Por favor, preencha pelo menos a área da propriedade.');
-        return;
-    }
-
-    // Cálculos
-    const waterPerHectare = (water / area).toFixed(2);
-    let energyScore = 0;
-    let energyLabel = '';
-
-    switch(energy) {
-        case 'solar':
-            energyScore = 10;
-            energyLabel = 'Excelente - Energia 100% renovável';
-            break;
-        case 'biogas':
-            energyScore = 9;
-            energyLabel = 'Ótimo - Biogás é sustentável';
-            break;
-        case 'hybrid':
-            energyScore = 6;
-            energyLabel = 'Bom - Mistura de energias';
-            break;
-        case 'fossil':
-            energyScore = 3;
-            energyLabel = 'Atenção - Dependente de combustíveis fósseis';
-            break;
-    }
-
-    let forestStatus = '';
-    let forestMessage = '';
-    if (forest >= 20) {
-        forestStatus = '✅ Excelente';
-        forestMessage = 'Sua propriedade está acima da média de reserva legal!';
-    } else if (forest >= 10) {
-        forestStatus = '⚠️ Regular';
-        forestMessage = 'Considere aumentar a área de reserva florestal.';
-    } else {
-        forestStatus = '❌ Insuficiente';
-        forestMessage = 'É necessário aumentar a reserva florestal para atender a legislação.';
-    }
-
-    // Cálculo do score geral
-    const generalScore = Math.round((energyScore + (forest / 5)) / 2 * 10) / 10;
-
-    let recommendation = '';
-    if (generalScore >= 8) {
-        recommendation = '🌟 Sua propriedade é modelo em sustentabilidade! Continue assim!';
-    } else if (generalScore >= 5) {
-        recommendation = '👍 Bom começo! Invista em energias renováveis e aumente a reserva florestal.';
-    } else {
-        recommendation = '⚠️ Sua propriedade precisa de melhorias urgentes em sustentabilidade.';
-    }
-
-    // Exibir resultados
-    const resultContent = document.getElementById('resultContent');
-    resultContent.innerHTML = `
-        <div class="result-item">
-            <div class="result-label">Consumo de água por hectare</div>
-            <div class="result-value">${waterPerHectare} m³/ha/dia</div>
-        </div>
-        <div class="result-item">
-            <div class="result-label">Tipo de energia</div>
-            <div class="result-value" style="font-size: 1.2rem;">${energyLabel}</div>
-        </div>
-        <div class="result-item">
-            <div class="result-label">Reserva florestal</div>
-            <div class="result-value">${forest}% - ${forestStatus}</div>
-            <div style="margin-top: 5px; font-size: 0.9rem;">${forestMessage}</div>
-        </div>
-        <div class="result-item">
-            <div class="result-label">Score de Sustentabilidade</div>
-            <div class="result-value" style="font-size: 2rem;">${generalScore}/10</div>
-        </div>
-        <div class="result-message">
-            ${recommendation}
-        </div>
-    `;
-}
-
-// ==========================================================================
-// 6. GALERIA INTERATIVA (LIGHTBOX)
-// ==========================================================================
-function openLightbox(element) {
-    const img = element.querySelector('img');
-    const caption = element.querySelector('.gallery-overlay p').textContent;
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-
-    lightboxImg.src = img.src;
-    lightboxCaption.textContent = caption;
-    lightbox.classList.add('active');
-}
-
-function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('active');
-}
-
-// Fechar lightbox com tecla ESC
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeLightbox();
-    }
-});
-
-// ==========================================================================
-// 7. FORMULÁRIO DE CONTATO
-// ==========================================================================
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+    document.getElementById('quizResultado').style.display = 'block';
     
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const assunto = document.getElementById('assunto').value;
-    const mensagem = document.getElementById('mensagem').value;
-
-    // Validação simples
-    if (nome && email && assunto && mensagem) {
-        alert(`Obrigado, ${nome}! \n\nSua mensagem sobre "${assunto}" foi enviada com sucesso!\n\nEntraremos em contato pelo e-mail: ${email}`);
-        this.reset();
-    } else {
-        alert('Por favor, preencha todos os campos.');
-    }
-});
-
-// ==========================================================================
-// 8. EFEITO DE SCROLL SUAVE NO HEADER
-// ==========================================================================
-let lastScroll = 0;
-const header = document.querySelector('header');
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+    document.getElementById('pontuacaoNumero').textContent = pontuacao;
     
-    if (currentScroll <= 0) {
-        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-        return;
+    let titulo = '';
+    let icone = '';
+    let mensagem = '';
+    
+    if (pontuacao === 5) {
+        titulo = 'Parabéns! Você é um Expert!';
+        icone = 'fa-trophy';
+        mensagem = 'Você domina o assunto! Continue compartilhando conhecimento sobre sustentabilidade no agro.';
+    } else if (pontuacao >= 3) {
+        titulo = 'Muito Bom!';
+        icone = 'fa-medal';
+        mensagem = 'Você tem um bom conhecimento! Que tal revisar os conteúdos para acertar todas?';
+    } else {
+        titulo = 'Continue Estudando!';
+        icone = 'fa-book';
+        mensagem = 'Aproveite para explorar mais o site e aprender sobre sustentabilidade no agronegócio!';
     }
     
-    if (currentScroll > lastScroll && !header.classList.contains('scroll-down')) {
-        // Scroll down
-        header.style.transform = 'translateY(-100%)';
-    } else if (currentScroll < lastScroll && header.classList.contains('scroll-down')) {
-        // Scroll up
-        header.style.transform = 'translateY(0)';
-    }
-    
-    lastScroll = currentScroll;
-});
+    document.getElementById('resultadoTitulo').textContent = titulo;
+    document.getElementById('resultadoIcone').className = `fas ${icone}`;
+    document.getElementById('resultadoMensagem').textContent = mensagem;
+};
 
-// ==========================================================================
-// 9. ANIMAÇÃO DE DIGITAÇÃO NO HERO (OPCIONAL)
-// ==========================================================================
-const heroText = document.querySelector('.hero p');
-if (heroText) {
-    const text = heroText.textContent;
-    heroText.textContent = '';
-    let i = 0;
-
-    const typeWriter = () => {
-        if (i < text.length) {
-            heroText.textContent += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, 50);
+document.getElementById('btnReiniciar').addEventListener('click', () => {
+    questaoAtual = 0;
+    pontuacao = 0;
+    quizFinalizado = false;
+    btnProxima.textContent = 'Próxima Pergunta';
+    btnProxima.onclick = () => {
+        if (questaoAtual < quizData.length - 1) {
+            questaoAtual++;
+            carregarQuestao();
         }
     };
+    
+    document.getElementById('quizContent').style.display = 'block';
+    document.getElementById('quizResultado').style.display = 'none';
+    carregarQuestao();
+});
 
-    // Iniciar animação após 1 segundo
-    setTimeout(typeWriter, 1000);
-}
+// Iniciar quiz
+carregarQuestao();
+
+// ==========================================================================
+// NEWSLETTER
+// ==========================================================================
+const newsletterForm = document.getElementById('newsletterForm');
+
+newsletterForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const nome = document.getElementById('nomeNewsletter').value;
+    const email = document.getElementById('emailNewsletter').value;
+    
+    // Simular envio
+    alert(`Obrigado, ${nome}! \n\nVocê foi inscrito com sucesso na newsletter!\nEm breve você receberá novidades em: ${email}`);
+    
+    newsletterForm.reset();
+});
+
+// ==========================================================================
+// FORMULÁRIO DE CONTATO
+// ==========================================================================
+const contatoForm = document.getElementById('contatoForm');
+
+contatoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const nome = document.getElementById('nomeContato').value;
+    const email = document.getElementById('emailContato').value;
+    const assunto = document.getElementById('assuntoContato').value;
+    const mensagem = document.getElementById('mensagemContato').value;
+    
+    // Simular envio
+    alert(`Mensagem enviada com sucesso!\n\nObrigado pelo contato, ${nome}!\nRetornaremos em breve para: ${email}`);
+    
+    contatoForm.reset();
+});
+
+// ==========================================================================
+// ANIMAÇÃO SUAVE NOS CARDS
+// ==========================================================================
+document.querySelectorAll('.tech-card, .dado-card, .acao-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-10px)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+    });
+});
+
+// ==========================================================================
+// PREVENIR SCROLL HORIZONTAL
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.style.overflowX = 'hidden';
+});
